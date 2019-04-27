@@ -9,8 +9,7 @@ func _process(delta):
 	var overlapping_areas = get_overlapping_areas()
 	
 	if len(overlapping_areas) > 0:
-		if overlapping_areas[0].name == 'EnemyShip':
-			self.queue_free()
+		queue_free()
 
 func move(delta):
 	var vel = velcoity.rotated(global_rotation)*delta

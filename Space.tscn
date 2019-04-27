@@ -6,7 +6,11 @@
 [node name="Space" type="Node2D"]
 
 [node name="PlayerShip" parent="." instance=ExtResource( 1 )]
+position = Vector2( 800, 360 )
 
 [node name="EnemyShip" parent="." instance=ExtResource( 2 )]
-position = Vector2( 520, 70 )
+position = Vector2( 640, 110 )
+rotation = 3.14159
+input_pickable = false
+LIFE = 20
 
