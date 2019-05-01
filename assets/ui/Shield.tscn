@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://art/ui/shield.png" type="Texture" id=1]
+
+[node name="Shield" type="TextureProgress"]
+rect_scale = Vector2( 0.2, 0.2 )
+value = 70.0
+texture_progress = ExtResource( 1 )
+fill_mode = 5
+

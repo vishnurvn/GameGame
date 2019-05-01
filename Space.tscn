@@ -1,16 +1,31 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://assets/ships/PlayerShip.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/ships/EnemyShip.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Space.gd" type="Script" id=1]
+[ext_resource path="res://assets/space_stuff/Background.tres" type="TileSet" id=2]
+[ext_resource path="res://assets/GUI.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/ships/PlayerShip.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/ships/EnemyShip.tscn" type="PackedScene" id=5]
 
 [node name="Space" type="Node2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 0.0 ],
+"_edit_vertical_guides_": [ 2048.0 ]
+}
 
-[node name="PlayerShip" parent="." instance=ExtResource( 1 )]
-position = Vector2( 800, 360 )
+[node name="TileMap" type="TileMap" parent="."]
+z_index = -1
+tile_set = ExtResource( 2 )
+format = 1
+tile_data = PoolIntArray( 0, 0, 0, 11, 0, 0, 22, 0, 0, 393216, 0, 0, 393227, 0, 0, 393238, 0, 0, 786432, 0, 0, 786443, 0, 0, 786454, 0, 0 )
 
-[node name="EnemyShip" parent="." instance=ExtResource( 2 )]
-position = Vector2( 640, 110 )
-rotation = 3.14159
-input_pickable = false
-LIFE = 20
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GUI" parent="CanvasLayer" instance=ExtResource( 3 )]
+
+[node name="PlayerShip" parent="." instance=ExtResource( 4 )]
+position = Vector2( 1024, 512 )
+
+[node name="EnemyShip" parent="." instance=ExtResource( 5 )]
+position = Vector2( 768, 512 )
 

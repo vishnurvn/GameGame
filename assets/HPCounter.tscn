@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/default_theme.tres" type="Theme" id=1]
+
+[node name="HPCounter" type="NinePatchRect"]
+margin_right = 100.0
+margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+theme = ExtResource( 1 )
+text = "10"
+
