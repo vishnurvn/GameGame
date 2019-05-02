@@ -13,14 +13,14 @@ var life = 100
 var shield = 100
 var can_shoot = true
 var can_shoot_missile = true
+var desired = Vector2(0, 0).angle()
 
 func _ready():
 	pass
 
 func get_input():
 	if Input.is_action_pressed("click"):
-		rotate = get_angle_to(get_global_mouse_position())
-		self.rotate(rotate+deg2rad(90))
+		desired = (position - get_global_mouse_position()).angle() - deg2rad(90)
 	if Input.is_action_pressed("ui_up"):
 		SPEED += ACCELERATION
 		velocity = Vector2(0, max(SPEED, MAX_SPEED)).rotated(rotation)
@@ -54,6 +54,7 @@ func fire_missile():
 
 func _physics_process(delta):
 	velocity = move_and_slide(get_input())
+	rotation = desired
 	if life <= 0:
 		create_explosion()
 		queue_free()
@@ -74,6 +75,11 @@ func _on_DamageArea_body_entered(body):
 			shield -= 10
 		else:
 			life -= 10
+	if body.name == "EnemyShip":
+		if shield >= 0:
+			shield -= 50
+		else:
+			life -= 50
 
 func _on_ShootTimer_timeout():
 	can_shoot = true

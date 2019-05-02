@@ -4,6 +4,7 @@
 [ext_resource path="res://art/ships/ship_one.png" type="Texture" id=2]
 
 [node name="PlayerShip" type="KinematicBody2D"]
+position = Vector2( 469.47, 321.421 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
