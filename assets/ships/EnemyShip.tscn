@@ -4,18 +4,15 @@
 [ext_resource path="res://art/ships/enemy_ship.png" type="Texture" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 200.0
+radius = 300.0
 
-[node name="EnemyShip" type="RigidBody2D"]
-contacts_reported = 20
-contact_monitor = true
+[node name="EnemyShip" type="KinematicBody2D"]
+position = Vector2( 497.235, 290.974 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_group_": true
-}
 LIFE = 100
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
 position = Vector2( -0.104675, 0.60856 )
 scale = Vector2( 1, 0.968457 )
 polygon = PoolVector2Array( 0, 0, -10, -10, -20, -10, -20, 0, -8.66106, 13.7322, 0.131554, 13.8317, 9.44754, 13.8317, 20, 0, 20, -10, 10, -10 )
@@ -45,7 +42,15 @@ shape = SubResource( 1 )
 [node name="ShootTimer" type="Timer" parent="."]
 wait_time = 0.5
 
-[connection signal="body_entered" from="." to="." method="_on_EnemyShip_body_entered"]
+[node name="DamageArea" type="Area2D" parent="."]
+visible = false
+
+[node name="DamageShape" type="CollisionPolygon2D" parent="DamageArea"]
+position = Vector2( -0.104675, 0.608551 )
+scale = Vector2( 1, 0.968457 )
+polygon = PoolVector2Array( 0, 0, -10, -10, -20, -10, -20, 0, -8.66106, 13.7322, 0.131554, 13.8317, 9.44754, 13.8317, 20, 0, 20, -10, 10, -10 )
+
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_DetectionArea_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_DetectionArea_body_exited"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]
+[connection signal="body_entered" from="DamageArea" to="." method="_on_DamageArea_body_entered"]

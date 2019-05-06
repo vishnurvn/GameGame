@@ -47,6 +47,16 @@ wait_time = 0.2
 [node name="MissileTimer" type="Timer" parent="."]
 wait_time = 2.0
 
+[node name="TargetArea" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TargetArea"]
+position = Vector2( 0, -11.4132 )
+scale = Vector2( 1, 1.14904 )
+polygon = PoolVector2Array( -109.47, -231.421, -59.47, -251.421, -9.47, -261.421, 60.53, -251.421, 100.53, -231.421, 0.529999, -1.42099 )
+
 [connection signal="body_entered" from="DamageArea" to="." method="_on_DamageArea_body_entered"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]
 [connection signal="timeout" from="MissileTimer" to="." method="_on_MissileTimer_timeout"]
+[connection signal="body_entered" from="TargetArea" to="." method="_on_TargetArea_body_entered"]
+[connection signal="body_exited" from="TargetArea" to="." method="_on_TargetArea_body_exited"]

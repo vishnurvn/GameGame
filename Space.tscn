@@ -1,10 +1,15 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Space.gd" type="Script" id=1]
 [ext_resource path="res://assets/space_stuff/Background.tres" type="TileSet" id=2]
 [ext_resource path="res://assets/GUI.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/ships/PlayerShip.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/ships/EnemyShip.tscn" type="PackedScene" id=5]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array(  )
+}
 
 [node name="Space" type="Node2D"]
 script = ExtResource( 1 )
@@ -31,4 +36,7 @@ position = Vector2( 1024, 512 )
 
 [node name="EnemyShip" parent="." instance=ExtResource( 5 )]
 position = Vector2( 768, 512 )
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource( 1 )
 

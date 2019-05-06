@@ -1,20 +1,27 @@
-extends RigidBody2D
+extends KinematicBody2D
 
 export(int) var LIFE
 const explosion = preload("res://assets/bullets/Explosion.tscn")
 const BULLET = preload("res://assets/bullets/Bullet.tscn")
 const MISSILE = preload("res://assets/bullets/Missile.tscn")
-onready var player = get_node("../PlayerShip")
 var can_shoot = true
 var can_shoot_missile = true
-var intruder = null
 var target = null
 var hit_pos
 var laser_color = Color(1.0, 0.329, 0.298)
+const ORIGIN = Vector2(500, 500)
+var visit_points = [ORIGIN]
+var current = null
+var velocity = Vector2(0, 0)
+var is_moving = false
+var target_position = null
+var speed = 150
+var patrol_mode = true
 
 func _ready():
-	gravity_scale = 0
-	mass = 20
+	position = ORIGIN
+	for i in range(randi() % 5):
+		visit_points.append(Vector2(rand_range(0, 1000), rand_range(0, 1000)))
 
 func _process(delta):
 	if LIFE <= 0:
@@ -23,14 +30,28 @@ func _process(delta):
 	$HealthPoint.text = str(LIFE)
 	
 func _physics_process(delta):
-	if target:
-		aim()
+	if patrol_mode:
+		if is_moving:
+			pass
+		else:
+			target_position = visit_points.pop_back()
+			velocity = (target_position - position).normalized() * speed
+			rotation = (target_position - position).angle() + deg2rad(90)
+			visit_points.insert(0, target_position)
+			is_moving = true
+		if (target_position - position).length() < 5:
+			is_moving = false
+	else:
+		if target:
+			aim()
+		velocity = Vector2()
+	move_and_slide(velocity)
 		
 func _draw():
 	if target:
 		draw_circle((hit_pos - position).rotate(-rotation), 10, laser_color)
 		draw_line(Vector2(), (hit_pos - position).rotate(-rotation), laser_color)
-		
+
 func aim():
 	var space_state = get_world_2d().direct_space_state
 	var result = space_state.intersect_ray(position, target.position, [self])
@@ -64,7 +85,7 @@ func fire_missile(pos):
 	get_parent().add_child(missile)
 	can_shoot_missile = false
 
-func _on_EnemyShip_body_entered(body):
+func _on_DamageArea_body_entered(body):
 	if "Bullet" in body.name:
 		LIFE -= 10
 	if "Player" in body.name:
@@ -73,10 +94,12 @@ func _on_EnemyShip_body_entered(body):
 func _on_DetectionArea_body_entered(body):
 	if body.name == "PlayerShip":
 		target = body
+		patrol_mode = false
 
 func _on_DetectionArea_body_exited(body):
 	if body.name == "PlayerShip":
 		target = null
+		patrol_mode = true
 
 func _on_ShootTimer_timeout():
 	can_shoot = true
